@@ -1,0 +1,15 @@
+<div class="home__component">
+  <div>
+    <div class="hero" *ngFor="let hero of heroes; index as i" (click)="getInfo(i)">
+      <div>
+        <img [src]="hero._picture">
+        <span>{{i | myIndexDecorator}}</span>
+      </div>
+      <div class="description">
+        <h4>{{hero._nickname}}</h4>
+        <span>{{hero._name}}</span>
+        <span>Estatura: {{hero._height}}mt</span>
+      </div>
+    </div>
+  </div>
+</div>

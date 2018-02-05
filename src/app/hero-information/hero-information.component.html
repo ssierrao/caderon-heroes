@@ -1,0 +1,22 @@
+<div class="hero__information">
+  <button (click)="goBack()">Go back</button>
+  <div>
+    <div>
+      <img [src]="hero._picture">
+    </div>
+    <div class="info__container">
+      <label>Name</label>
+      <input placeholder="Name" title="Name" [(ngModel)]="hero._name">
+      <label>Nickname</label>
+      <input placeholder="Nickname" title="Nickname" [(ngModel)]="hero._nickname">
+      <label>Height (mt)</label>
+      <input placeholder="Height" title="Height" [(ngModel)]="hero._height">
+      <label>Picture</label>
+      <input placeholder="Picture" title="Picture" [(ngModel)]="hero._picture">
+    </div>
+    <div>
+      <div (click)="goBack()">Discard</div>
+      <div (click)="save()">Save</div>
+    </div>
+  </div>
+</div>

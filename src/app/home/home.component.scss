@@ -1,0 +1,62 @@
+@import "../shared/styles/mixins";
+
+.home__component {
+  @include flexColumnCentered;
+  width: 100%;
+  min-height: 100%;
+
+  > div {
+    width: 90%;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.75);
+    @include flexRowCentered;
+    justify-content: space-around;
+    .hero {
+      cursor: pointer;
+      margin: 20px 0;
+      width: 27%;
+      padding: 15px 10px;
+      border-radius: 10px;
+      @include flexRowCentered;
+      flex-wrap: nowrap;
+      background-color: #fff;
+      @include shadow(rgba(0,0,0,0.5));
+      :first-child {
+        position: relative;
+        width: 40%;
+        img {
+          width: 100%;
+          height: auto;
+          border-radius: 50%;
+        }
+        span {
+          position: absolute;
+          background: rgba(255, 0, 4, 0.61);
+          color: #fff;
+          font-weight: bold;
+          font-size: 15px;
+          padding: 13px 12px 17px;
+          top: -8px;
+          right: -19px;
+          border-radius: 50%;
+        }
+      }
+      .description {
+        width: 60%;
+        @include flexColumnStart;
+        padding-left: 25px;
+        h4 {
+          width: 100%;
+          color: rgba(255, 0, 4, 0.7);
+          margin-bottom: 10px;
+          font-size: 20px;
+        }
+        span {
+          color: rgba(0, 0, 0, 0.45);
+          font-weight: bold;
+          font-size: 15px;
+        }
+      }
+    }
+  }
+}

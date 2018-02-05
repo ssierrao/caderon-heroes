@@ -1,0 +1,14 @@
+// styles in src/style directory are applied to the whole page
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+body {
+  background-image: url("../public/img/fondo.png");
+  font-family: sans-serif, sans-serif;
+}
+
+a {
+  color: #03A9F4;
+}
