@@ -17,8 +17,8 @@ export class ApiService {
     this.heroes$ = store.select('heroes');
   }
 
-  private fixHeightFromFtToMtWith2Decimals(height: string): string {
-    return (parseInt(height, 10) * 0.3048).toFixed(2);
+  private fixHeightFromFtToMtWith2Decimals(height: number): number {
+    return height * 0.3048;
   }
 
   getHeroesList(): Observable<Array<Hero>> {

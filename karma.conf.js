@@ -13,7 +13,7 @@ module.exports = function (config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['jasmine'],
+    frameworks: ['mocha', 'chai', 'sinon', 'sinon-chai', '@angular/cli'],
 
     // list of files / patterns to load in the browser
     files: [
@@ -45,7 +45,17 @@ module.exports = function (config) {
     // possible values: 'dots', 'progress', 'mocha'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
     reporters: ["mocha"],
-
+    plugins: [
+      require('karma-chai'),
+      require('karma-mocha'),
+      require('karma-mocha-reporter'),
+      require('karma-chrome-launcher'),
+      require('karma-sinon'),
+      require('karma-sinon-chai'),
+      require('karma-sourcemap-loader'),
+      require('karma-webpack'),
+      require('@angular/cli/plugins/karma')
+    ],
     // web server port
     port: 9876,
 
@@ -61,7 +71,18 @@ module.exports = function (config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome'],
+    browsers: ['Chrome_headless'],
+    customLaunchers: {
+      Chrome_headless: {
+        base: 'Chrome',
+        flags: [
+          '--no-sandbox',
+          '--headless',
+          '--disable-gpu',
+          ' --remote-debugging-port=9222'
+        ]
+      }
+    },
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits

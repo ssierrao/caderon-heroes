@@ -1,5 +1,4 @@
 <div class="hero__information">
-  <button (click)="goBack()">Go back</button>
   <div>
     <div>
       <img [src]="hero._picture">
@@ -14,7 +13,7 @@
       <label>Picture</label>
       <input placeholder="Picture" title="Picture" [(ngModel)]="hero._picture">
     </div>
-    <div>
+    <div class="buttons__container">
       <div (click)="goBack()">Discard</div>
       <div (click)="save()">Save</div>
     </div>

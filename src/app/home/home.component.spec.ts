@@ -4,22 +4,27 @@ import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
 import { HomeComponent } from './home.component';
+import { ApiService } from '../shared';
+import { StateService } from '@uirouter/core';
+
+class ApiServiceStub {
+  getHeroesList() {
+
+  }
+}
 
 describe('Home Component', () => {
-  const html = '<my-home></my-home>';
-
   beforeEach(() => {
-    TestBed.configureTestingModule({declarations: [HomeComponent, TestComponent]});
-    TestBed.overrideComponent(TestComponent, { set: { template: html }});
+    TestBed.configureTestingModule({
+      declarations: [HomeComponent], providers: [
+        {provide: ApiService, useClass: ApiServiceStub}, {provide: StateService, useClass: StateService}
+      ]
+    });
   });
 
-  it('should ...', () => {
-    const fixture = TestBed.createComponent(TestComponent);
-    fixture.detectChanges();
-    expect(fixture.nativeElement.children[0].textContent).toContain('Home Works!');
+  describe('', () => {
+    
   });
 
 });
 
-@Component({selector: 'my-test', template: ''})
-class TestComponent { }

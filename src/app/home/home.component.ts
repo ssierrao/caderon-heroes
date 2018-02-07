@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../shared';
+import { StateService } from '@uirouter/core';
 import Hero from '../shared/models/heroes/hero';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'my-home',
@@ -11,8 +11,7 @@ import { Router } from '@angular/router';
 export class HomeComponent implements OnInit {
   heroes: Array<Hero>;
 
-  constructor(private apiService: ApiService, private router: Router) {
-    // Do stuff
+  constructor(private apiService: ApiService, private $state: StateService) {
   }
 
   ngOnInit() {
@@ -24,7 +23,7 @@ export class HomeComponent implements OnInit {
   }
 
   getInfo(index: number) {
-    this.router.navigate([index]);
+    this.$state.go('about', {id: index});
   }
 
 }

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import Hero from '../shared/models/heroes/hero';
 import { Observable } from 'rxjs/Observable';
 import { UPDATE } from '../shared/services/storeHeroes/StoreHeroes.service';
+import { StateService } from '@uirouter/core';
 
 interface AppState {
   heroes: Array<Hero>;
@@ -19,16 +19,15 @@ export class AboutComponent implements OnInit {
   private id: number;
   hero: Hero = {};
 
-  constructor(private route: ActivatedRoute, private router: Router,
-              private store: Store<AppState>) {
+  constructor(private store: Store<AppState>, private $state: StateService) {
   }
 
   ngOnInit() {
-    this.id = parseInt(this.route.snapshot.url.map(x => x.path)[0], 10);
+    this.id = parseInt(this.$state.params.id, 10);
     this.heroes$ = this.store.select('heroes');
     this.heroes$.take(1).subscribe(heroes => {
       if (heroes.length > this.id) {
-        this.hero = heroes[this.id];
+        this.hero = JSON.parse(JSON.stringify(heroes[this.id]));
       } else {
         this.goBack();
       }
@@ -36,7 +35,7 @@ export class AboutComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['']);
+    this.$state.go('home');
   }
 
   save() {
