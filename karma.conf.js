@@ -1,108 +1,82 @@
-var path = require('path');
-
-var webpackConfig = require('./webpack.config');
-
-var ENV = process.env.npm_lifecycle_event;
-var isTestWatch = ENV === 'test-watch';
-
 module.exports = function (config) {
-  var _config = {
+  const webpackConfig = require('./webpack.config');
+  const webpack = require('webpack');
 
-    // base path that will be used to resolve all patterns (eg. files, exclude)
+  webpackConfig.entry = undefined;
+  webpackConfig.output = undefined;
+  // karma is actually very brittle. The commons chunk plugin as well as the define plugin break it, so we
+  // disable these
+  webpackConfig.plugins = webpackConfig.plugins
+    .filter(function (p) {
+      return !(p instanceof webpack.optimize.CommonsChunkPlugin)
+    }).filter(function (p) {
+      return !(p instanceof webpack.DefinePlugin)
+    });
+  webpackConfig.devtool = 'inline-source-map';
+  config.set({
     basePath: '',
-
-    // frameworks to use
-    // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['mocha', 'chai', 'sinon', 'sinon-chai', '@angular/cli'],
-
-    // list of files / patterns to load in the browser
-    files: [
-      { pattern: './karma-shim.js', watched: false }
-    ],
-
-    // list of files to exclude
-    exclude: [],
-
-    // preprocess matching files before serving them to the browser
-    // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-    preprocessors: {
-      './karma-shim.js': ['webpack', 'sourcemap']
-    },
-
-    webpack: webpackConfig,
-
-    webpackMiddleware: {
-      // webpack-dev-middleware configuration
-      // i. e.
-      stats: 'errors-only'
-    },
-
-    webpackServer: {
-      noInfo: true // please don't spam the console when running in karma!
-    },
-
-    // test results reporter to use
-    // possible values: 'dots', 'progress', 'mocha'
-    // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ["mocha"],
+    frameworks: ['mocha', 'chai', 'sinon-chai'],
     plugins: [
-      require('karma-chai'),
       require('karma-mocha'),
-      require('karma-mocha-reporter'),
-      require('karma-chrome-launcher'),
+      require('karma-chai'),
       require('karma-sinon'),
       require('karma-sinon-chai'),
-      require('karma-sourcemap-loader'),
+      require('karma-chrome-launcher'),
+      require('karma-phantomjs-launcher'),
+      require('karma-mocha-reporter'),
+      require('karma-coverage-istanbul-reporter'),
+      require('karma-istanbul-threshold'),
       require('karma-webpack'),
-      require('@angular/cli/plugins/karma')
+      require('karma-sourcemap-loader'),
     ],
-    // web server port
-    port: 9876,
-
-    // enable / disable colors in the output (reporters and logs)
-    colors: true,
-
-    // level of logging
-    // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-    logLevel: config.LOG_INFO,
-
-    // enable / disable watching file and executing tests whenever any file changes
-    autoWatch: false,
-
-    // start these browsers
-    // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome_headless'],
-    customLaunchers: {
-      Chrome_headless: {
-        base: 'Chrome',
-        flags: [
-          '--no-sandbox',
-          '--headless',
-          '--disable-gpu',
-          ' --remote-debugging-port=9222'
-        ]
+    client: {
+      clearContext: false // leave Jasmine Spec Runner output visible in browser
+    },
+    files: [
+      {pattern: 'node_modules/sinon/pkg/sinon.js', instrument: false},
+      {pattern: 'node_modules/chai/chai.js', instrument: false},
+      {pattern: 'node_modules/sinon-chai/lib/sinon-chai.js', instrument: false},
+      {pattern: './test.webpack.js', watched: false}
+    ],
+    preprocessors: {
+      './test.webpack.js': ['webpack', 'sourcemap']
+    },
+    mime: {
+      'text/x-typescript': ['ts', 'tsx']
+    },
+    coverageIstanbulReporter: {
+      reports: ['html', 'lcovonly', 'json'],
+      fixWebpackSourcePaths: true
+    },
+    istanbulThresholdReporter: {
+      src: 'coverage/coverage-final.json',
+      reporters: ['text'],
+      thresholds: {
+        global: {
+          statements: 95.01,
+          branches: 75.59,
+          lines: 91.89,
+          functions: 89.23
+        },
+        each: {
+          statements: 75.76,
+          branches: 33.33,
+          lines: 75,
+          functions: 41.67
+        }
       }
     },
-
-    // Continuous Integration mode
-    // if true, Karma captures browsers, runs the tests and exits
-    singleRun: true
-  };
-
-  if (!isTestWatch) {
-    _config.reporters.push("coverage");
-
-    _config.coverageReporter = {
-      dir: 'coverage/',
-      reporters: [{
-        type: 'json',
-        dir: 'coverage',
-        subdir: 'json',
-        file: 'coverage-final.json'
-      }]
-    };
-  }
-
-  config.set(_config);
-
+    angularCli: {
+      environment: 'dev'
+    },
+    reporters: config.angularCli && config.angularCli.codeCoverage
+      ? ['progress', 'coverage-istanbul', 'istanbul-threshold']
+      : ['progress', 'mocha'],
+    port: 9876,
+    colors: true,
+    logLevel: config.LOG_INFO,
+    autoWatch: true,
+    browsers: ['Chrome'],
+    singleRun: false
+  });
 };
