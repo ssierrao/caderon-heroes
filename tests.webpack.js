@@ -1,20 +1,20 @@
 // This file is an entry point for angular tests
-// Avoids some weird issues when using webpack + angular.
-require('@angular');
-require('zone.js');
-require('@angular/core/testing');
-require('@angular/platform-browser-dynamic/testing');
+import * as Zone from 'zone.js';
+import * as ngTest from '@angular/core/testing';
+import {
+  BrowserDynamicTestingModule,
+  platformBrowserDynamicTesting
+} from '@angular/platform-browser-dynamic/testing';
 
 // Unfortunately there's no typing for the `__karma__` variable. Just declare it as any.
-var __karma__;
-var require;
+var __karma__ = window.__karma__;
 
 // Prevent Karma from running prematurely.
 __karma__.loaded = function () {
 };
 
 // First, initialize the Angular testing environment.
-getTestBed().initTestEnvironment(
+ngTest.getTestBed().initTestEnvironment(
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting()
 );

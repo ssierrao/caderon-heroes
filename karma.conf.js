@@ -36,10 +36,10 @@ module.exports = function (config) {
       {pattern: 'node_modules/sinon/pkg/sinon.js', instrument: false},
       {pattern: 'node_modules/chai/chai.js', instrument: false},
       {pattern: 'node_modules/sinon-chai/lib/sinon-chai.js', instrument: false},
-      {pattern: './test.webpack.js', watched: false}
+      {pattern: './tests.webpack.js', watched: false}
     ],
     preprocessors: {
-      './test.webpack.js': ['webpack', 'sourcemap']
+      './tests.webpack.js': ['webpack', 'sourcemap']
     },
     mime: {
       'text/x-typescript': ['ts', 'tsx']
