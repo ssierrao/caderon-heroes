@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<testsuite name="HeadlessChrome 63.0.3239 (Windows 10.0.0)" package="" timestamp="2018-02-14T00:04:42" id="0" hostname="LAPTOP-VCBINQ8M" tests="1" errors="0" failures="0" time="0.001">
+  <properties>
+    <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/63.0.3239.132 Safari/537.36"/>
+  </properties>
+  <testcase name="App should have an url" time="0.001" classname="HeadlessChrome_63_0_3239_(Windows_10_0_0).App"/>
+  <system-out>
+    <![CDATA[HeadlessChrome 63.0.3239 (Windows 10.0.0) LOG: 'hello world'
+
+]]>
+  </system-out>
+  <system-err/>
+</testsuite>
