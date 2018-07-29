@@ -1,5 +1,5 @@
 import Hero from '../models/heroes/hero';
-import { CREATE_HERO, GET_HERO, HeroesActions, INIT_HEROES, RESET_HERO, UPDATE_HERO } from '../actions/heroes.actions';
+import { CREATE_HERO, HeroesActions, INIT_HEROES, RESET_HERO, UPDATE_HERO } from '../actions/heroes.actions';
 
 let initialValue: Array<Hero> = [];
 
