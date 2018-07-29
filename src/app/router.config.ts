@@ -11,9 +11,3 @@ export let MAIN_STATES: Ng2StateDeclaration[] = [
   // This is the Future State for lazy loading the BazModule
   {name: 'about', url: ':id', component: AboutComponent}
 ];
-
-export default class AppRoutes {
-  constructor($locationProvider: any) {
-    $locationProvider.html5Mode(true);
-  }
-}
