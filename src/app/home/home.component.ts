@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../shared';
 import { StateService } from '@uirouter/core';
 import Hero from '../shared/models/heroes/hero';
+import { Store } from '@ngrx/store';
+import { AppState } from '../shared/actions/heroes.actions';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'my-home',
@@ -9,17 +11,13 @@ import Hero from '../shared/models/heroes/hero';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  heroes: Array<Hero>;
+  heroes$: Observable<Array<Hero>>;
 
-  constructor(private apiService: ApiService, private $state: StateService) {
+  constructor(private store: Store<AppState>, private $state: StateService) {
   }
 
   ngOnInit() {
-    this.apiService.getHeroesList().subscribe(
-      result => {
-        this.heroes = result;
-      }
-    );
+    this.heroes$ = this.store.select('heroes');
   }
 
   getInfo(index: number) {

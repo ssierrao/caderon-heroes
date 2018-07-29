@@ -1,6 +1,6 @@
 <div class="home__component">
   <div>
-    <div class="hero" *ngFor="let hero of heroes; index as i" (click)="getInfo(i)">
+    <div class="hero" *ngFor="let hero of heroes$ |async ; index as i" (click)="getInfo(i)">
       <div>
         <img [src]="hero._picture">
         <span>{{i | myIndexDecorator}}</span>
@@ -13,3 +13,4 @@
     </div>
   </div>
 </div>
+

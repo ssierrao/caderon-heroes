@@ -1,13 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import Hero from '../shared/models/heroes/hero';
-import { Observable } from 'rxjs/Observable';
-import { UPDATE } from '../shared/services/storeHeroes/StoreHeroes.service';
 import { StateService } from '@uirouter/core';
-
-interface AppState {
-  heroes: Array<Hero>;
-}
+import { AppState, GetHeroes, UpdateHero } from '../shared/actions/heroes.actions';
 
 @Component({
   selector: 'my-about',
@@ -15,7 +10,6 @@ interface AppState {
   styleUrls: ['./hero-information.component.scss']
 })
 export class AboutComponent implements OnInit {
-  heroes$: Observable<Array<Hero>>;
   private id: number;
   hero: Hero = {};
 
@@ -24,14 +18,15 @@ export class AboutComponent implements OnInit {
 
   ngOnInit() {
     this.id = parseInt(this.$state.params.id, 10);
-    this.heroes$ = this.store.select('heroes');
-    this.heroes$.take(1).subscribe(heroes => {
-      if (heroes.length > this.id) {
-        this.hero = JSON.parse(JSON.stringify(heroes[this.id]));
+    const heroesStore = this.store.select('heroes').subscribe((heroes: Array<Hero>) => {
+      if (heroes !== undefined && heroes.length > 0) {
+        this.hero = heroes[this.id];
       } else {
         this.goBack();
       }
     });
+    this.store.dispatch(new GetHeroes());
+    heroesStore.unsubscribe();
   }
 
   goBack() {
@@ -39,8 +34,8 @@ export class AboutComponent implements OnInit {
   }
 
   save() {
-    const payload = {index: this.id, newValue: this.hero};
-    this.store.dispatch({type: UPDATE, payload});
+    const payload = {index: this.id, hero: this.hero};
+    this.store.dispatch(new UpdateHero(payload));
     this.goBack();
   }
 }

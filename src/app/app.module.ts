@@ -11,7 +11,9 @@ import { UIRouterModule } from '@uirouter/angular';
 import { MAIN_STATES } from './router.config';
 import { IndexDecorator } from './shared/pipes/indexDecorator/index-decorator.pipe';
 import { StoreModule } from '@ngrx/store';
-import { storeHeroes } from './shared/services/storeHeroes/StoreHeroes.service';
+import { storeHeroes } from './shared/reducers/StoreHeroes.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { effects } from './shared/effects';
 
 @NgModule({
   imports: [
@@ -23,7 +25,8 @@ import { storeHeroes } from './shared/services/storeHeroes/StoreHeroes.service';
     }),
     HttpClientModule,
     FormsModule,
-    StoreModule.forRoot({heroes: storeHeroes})
+    StoreModule.forRoot({heroes: storeHeroes}),
+    EffectsModule.forRoot(effects)
   ],
   declarations: [
     AppComponent,
